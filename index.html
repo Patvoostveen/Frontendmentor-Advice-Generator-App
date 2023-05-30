@@ -1,28 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
 
   <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
+
   <title>Frontend Mentor | Advice generator app</title>
 
   <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
   <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Manrope', sans-serif;
+    }
+
+    body {
+      background-color: hsl(218, 23%, 16%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-items: center;
+      align-content: center;
+      max-width: 30%;
+      padding: 50px;
+      border-radius: 20px;
+      background-color: hsl(217, 19%, 38%);
+      box-shadow: 10px 10px 21px 0px rgba(0, 0, 0, 0.37);
+      border: solid 1px hsl(150, 100%, 66%);
+    }
+
+    #adid {
+      text-align: center;
+    }
+
+    #advice {
+      font-size: 28px;
+      text-align: center;
+      padding-bottom: 40px;
+      color: white;
+    }
+
+    .advicewrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      color: hsl(150, 100%, 66%);
+      padding-bottom: 30px;
+    }
+
+    .attribution {
+      width: 100%;
+      text-align: center;
+      font-size: 11px;
+      position: fixed;
+      bottom: 0;
+    }
+
+    .attribution a {
+      color: hsl(228, 45%, 44%);
+      margin-left: 5px;
+    }
+
+    .divide {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+
+    .lines::before {
+      position: absolute;
+      content: '';
+      height: 1px;
+      width: 40%;
+      background-color: hsl(150, 100%, 66%);
+      top: 50%;
+      right: 0;
+    }
+
+    .lines::after {
+      position: absolute;
+      content: '';
+      height: 1px;
+      width: 40%;
+      background-color: hsl(150, 100%, 66%);
+      top: 50%;
+      left: 0;
+    }
+
+    .dice {
+      display: flex;
+      position: absolute;
+      bottom: -24px;
+      left: 45.5%;
+      padding: 14px;
+      border-radius: 50%;
+      background-color: hsl(150, 100%, 66%);
+      cursor: pointer;
+    }
   </style>
 </head>
+
 <body>
 
-  Advice #<!-- Advice ID goes here -->
 
-  "<!-- Advice text goes here -->"
-  
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
+
+  <!-- Advice #Advice ID goes here -->
+  <div class="wrap">
+    <div class="advicewrap"><span>A D V I C E #</span>
+      <div id="adid"></div>
+    </div>
+    <!-- "Advice text goes here" -->
+    <div id="advice"></div>
+    <div class="divide">
+      <div class="lines"></div>
+      <img class="divider" src="images/pattern-divider-desktop.svg" alt="">
+      <div class="lines"></div>
+    </div>
+    <div class="dice" onclick="getAdvice()"><img src="images/icon-dice.svg" alt=""></div>
   </div>
+
+
+
+  <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+    Coded by <a href="#">Patrick van Oostveen</a>.
+  </div>
+
+  <script>
+    function getAdvice() {
+      fetch("https://api.adviceslip.com/advice")
+        .then((data) => {
+          return data.json();
+        }).then((completedata) => {
+          console.log(completedata);
+          document.getElementById('adid').innerHTML = completedata.slip.id;
+          document.getElementById('advice').innerHTML = completedata.slip.advice;
+        })
+    }
+    getAdvice();
+
+
+  </script>
 </body>
+
 </html>
